@@ -25,11 +25,20 @@ func main() {
 	defer resp.Body.Close() // Don't forget to close the response body
 
 	// Print request and response information
-	fmt.Printf("Request Method: %s", req.Method)
-	fmt.Printf("Response Status: %s", resp.Status)
-	fmt.Printf("Response Status Code: %d", resp.StatusCode)
+	fmt.Printf("Request Method: %s\n", req.Method)
+	fmt.Printf("Response Status: %s\n", resp.Status)
+	fmt.Printf("Response Status Code: %d\n", resp.StatusCode)
+	fmt.Println("---------------------------------------------")
 
-	fmt.Println("Body:")
+	fmt.Println("Let's test this out:")
 
-	helpers.PrintBody(resp)
+	links, err := helpers.CheckLinks(resp)
+	if err != nil {
+		log.Fatal("Could not check links: ", err)
+	}
+
+	for _, link := range links {
+		fmt.Println(link)
+	}
+
 }
