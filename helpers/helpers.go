@@ -2,7 +2,6 @@ package helpers
 
 import (
 	"errors"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -24,8 +23,6 @@ var statuses = map[int]string{
 
 func CheckLinks(response *http.Response) ([]string, error) {
 	sites := []string{}
-
-	fmt.Println(response.Request.Host)
 
 	body, err := io.ReadAll(response.Body)
 	if err != nil {
@@ -55,7 +52,7 @@ func CheckLinks(response *http.Response) ([]string, error) {
 func CheckStatus(link string) (string, error) {
 	temp_client := &http.Client{}
 
-	site := host + link
+	site := host + strings.TrimPrefix(link, "/")
 	req, err := http.NewRequest("GET", site, nil)
 	if err != nil {
 		log.Fatal("Error creating request: ", err)

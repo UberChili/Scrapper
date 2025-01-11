@@ -42,6 +42,7 @@ func main() {
 		log.Fatal("Could not check links: ", err)
 	}
 
+	fmt.Println("Non dead links:")
 	for _, link := range links {
 		fmt.Println(link)
 	}
