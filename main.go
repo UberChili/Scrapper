@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,10 +10,16 @@ import (
 )
 
 func main() {
+	urlPtr := flag.String("url", "", "The url to scrap")
+	flag.Parse()
+
 	client := &http.Client{}
 
-	// req, err := http.NewRequest("GET", "https://scrape-me.dreamsofcode.io/in-utero", nil)
-	req, err := http.NewRequest("GET", "https://scrape-me.dreamsofcode.io/nirvana", nil)
+	if *urlPtr == "" {
+		log.Fatal("No url provided")
+	}
+
+	req, err := http.NewRequest("GET", *urlPtr, nil)
 	if err != nil {
 		log.Fatal("Error creating request: ", err)
 	}
@@ -29,8 +36,6 @@ func main() {
 	fmt.Printf("Response Status: %s\n", resp.Status)
 	fmt.Printf("Response Status Code: %d\n", resp.StatusCode)
 	fmt.Println("---------------------------------------------")
-
-	fmt.Println("Let's test this out:")
 
 	links, err := helpers.CheckLinks(resp)
 	if err != nil {

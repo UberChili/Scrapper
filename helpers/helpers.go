@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -11,6 +12,7 @@ import (
 
 const host = "https://scrape-me.dreamsofcode.io/"
 
+// This can probably be just a slice, since I am not really using the values
 var statuses = map[int]string{
 	400: "Bad Request (Server couldn't understand the request)",
 	401: "Unauthorized (Authentication required)",
@@ -22,6 +24,8 @@ var statuses = map[int]string{
 
 func CheckLinks(response *http.Response) ([]string, error) {
 	sites := []string{}
+
+	fmt.Println(response.Request.Host)
 
 	body, err := io.ReadAll(response.Body)
 	if err != nil {
